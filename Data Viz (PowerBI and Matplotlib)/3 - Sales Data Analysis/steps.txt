@@ -1,0 +1,94 @@
+Tables to use: Locations , people, product and sales 
+in Models view: connect locations and sales table. 
+   connection string (geo:locations and geography: sales)
+
+Use Case: identifying the trend of sales to each geography
+
+   -> Select a column chart - X-axis: GEO and Y-axis: Amount.
+   -> When we analyse the visulization there are blank entries in the chart now look into the excel sheet where country column has some black spaces in the beginning and some name issues (in case of USA) thus, apply transform data step using power query editor.
+   ->power query: It is the data processing engine of power BI performs connection to data set, cleans and transform/reshape data.
+   -> On careful investigation we see that in Geography column there is inconsistency in country’s name so apply trimming on this column. (right click-> transform-> trim) now we have a proper formatted Geography column. (When you do these types of changes none of the data in original excel file changes but PBI adds rule at its level only) Apply changes and save.
+   ->Now in report view, the new visualization will appear now examine the tile it may be sum/mean/max/min of Amount by geography, now in Y-axis click and select average then we will get our INDIA in first place for sales.
+
+Use Case: Amounts by individual sales people.  
+	-> Select the stacked bar chart: - X-axis: Amount and Y-axis: Sales Person (as it is more in number) now select by teams which have four teams.
+	-> On carefully viewing the chart we see again we have blanks in teams.
+	-> Again, we need to perform data transformation but for now see where these blanks are for which we use the feature of power BI interactive mode.
+	-> Now click on blank and observe where these blanks are, we see this issue is in all the geography and we see who these blank peoples are.
+	-> select a table visual for now, and in column select "sales person" and click on blank we get a list of people who are blank. (Now we fix this issue)
+	-> Go to table view and select sales person table we see some blank entire for some team members.
+	-> select transform option --> choose people table --> we see some null entries. For these null entries we add them to a special team.
+    -> Select "Team" Column and right click and select replace values rule: find: "null" replace: "Special".	now close and apply.
+	-> In report view issue will be fixed, all null entries will be in special team.
+	(This concludes the data clean up part)
+	
+Use Case: Analysing Sales person performance
+	-> We do this in new page click on "+" in the bottom of the page and rename it.
+	-> AS the sales persons are large in number we select a table visual for now, Column: "Sales person Name", "Amount". Now power BI will be automatic calculations. Say if you want to make some custom calculation you can do that.
+	-> Now delete the "Amount" column and right click on sales table and select new measure, a new formula bar will be opened in the measure logics (language = Data Analysis Expressions (DAX)).
+	->Now enter the following DAX Expression: Total Amount = sum(sales[Amount]) and commit. It will appear in Sales in data pane with calculator symbol indication in is a custom measure logic applied on data.
+	-> A measure has both logical (formula you have added) and visual definition. They can be thought as tiny calculators that are attached to data,  which are used for dynamic calculations. 
+	-> To add visual definition click on "Total Amount" filed and in format ribbon ad our INDIA currency type and commit.
+	-> Now this table is showing information about all the sales person, now say we want to analyse sales from a team point of view then you add slicer visualization to this. 
+
+Use Case: Formatting our visualization
+    -> Now we shall format the data to look like a report rather than a bunch of things put-together.
+	-> Go to format and select visuals and format headings by giving title "Sales Team and Their Performance" (you can use search for your option or select from pane)
+	-> USe of DAX for Formatting (building measures)
+	-> With sales person and amount say we want total boxes (sales) then create new measure on sales table, "Total Boxes = sum(sales[Boxes])" format it as a whole number and zero decimal.
+	-> Ss this is a performance report we need to "sort this on total amount", click on total amount it will give you a list of sorter order ascending or descending.
+	-> Now we need to calculate "amount per box" so we use DAX measure here (Composite DAX measure),
+		-> Since we have "total amount" and "total boxes" column we can create new column "Amount per Box" using DAX measure on sales tables "Amount per Box = [Total Amount]/[Total Boxes]" (with in work book no "()"), format it to show INDIAN rupee symbol and two decimal place.
+	-> From performance point of view "Amount per Box" is most important indicator so we need to highlight this in our report.
+	-> For the above said thing, we use Conditional Formatting visuals databars in powerBI
+		-> first select the table --> format --> cell element --> apply setting to --> select column (Amount per Box) --> data bars on. (you can select the logic and colour).
+		-> Observer that colour are over-lapping our price value which may be disturbing so readjust the data bar setting. In fx--> maximum--> custom --> set it to 20/25/30 to see when colour are not over-lapping our price value.
+	-> Adding more WOW elements to your visualization
+		-> go to table view notice that in peoples table their is a picture column with url use this column element to add picture and personality to your visualization.
+		-> Go to report view and select table locate the picture column from data and add it next to the sales person name but by default this will only show the URL but the actual picture to do so follow the next step.
+		-> Go to table view -->select Picture column --> Data Category to "Image URL". (One time step)
+		->Go back to report view now URL are replaced with Images. (Format it to get a appealing view in format pane --> search--> image--> set pixel values (40px))
+		
+Use Case: Adding Category and Geo Splits
+    -> When we select a sales person we need to see how well they sell to a geography and which category they belong to.
+	->There are two task here 
+	-> Task 1: Adding total amount by category they belong to
+		-> select a stacked column chart and in x-axis: Category and Y-axis: Total Amount
+		-> As all visualizations in BI are interactive, now say we select a particular employee from sales table the newly created stacked column chart filters on a total amount say but we require to show only for that employee, to do this follow the below step.
+		->In PBI each visualization have three types of behaviour: 1. Filter, 2. highlighted 3. no interaction. (select table and verify)
+		-> Now to visualization the info for only the selected employee, select sales table -->  Format --> Edit Interaction. Now select newly created stacked column chart and select highlighted option to get the intended result. uncheck the Edit Interaction.
+	->Task 2: Adding total amount to individual geography
+		-> Now copy newly created stacked column chart (CLT+ C) and change x-axis: Category to Geo to get an intended result.
+		
+Use Case: Adding Titles, Logos to your Reports
+	-> In insert tab select insert text and add title resize it.
+	-> In insert tab select image and add.
+	
+Use Case: Sales Trend Analysis and Forecasting
+	-> To perform Trend Analysis and Forecasting we require a time series data.
+	-> Go Table view and select sales data table, here we see Data, amount, customer and Box can be modelled as time series data.
+	-> Sub use Case: Customer trend analysis
+		-> We want how many customer we cater on daily basis in the ear 2023  and the forecast it to 2024.
+		-> In new Page give a title as Sales Trend Analysis and Forecasting
+		-> Select line chart x-axis: Date Y-axis: (Create a Measure on sales for customer as "Total Customers = sum(sales[Customers])" then select that(Note: this make your report more flexible)
+		-> Note: date has a hierarchy of year, quarter, month and day so use arrow option at the top of visual.
+		-> Now add category to legend to get partition on products.
+	-> Sub use Case: Forecasting for 3 months
+		-> in visual icon of the visualization--> tick the check box for forecast and trend list for future analysis.
+		
+-> To publish Click on publish and it will publish online. Now copy the published link and open it in a new browser where you don’t have your login credentials to view in read only mode.
+
+	
+	
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	

@@ -1,0 +1,28 @@
+file --> options and settings--> options --> current file --> regional Settings --> locale --> English (United States) --> Ok 
+
+5. mini Project: Transform data Steps:
+1. Now click on get data (Excel file for tis case) --> gdp_data (Preview) --> Transform data --> takes to power query editor --> here we get the preview of our data and all the applied steps on the data in applied steps editor --> Rename the file to make it meaningful as GDP_Countries --> Make the first row as column as headers --> Rename the column names for readability --> also in data there are many null values --> remove those null values where all row vales are null --> This can be done by selecting the column (country) --> select remove rows (remove blank rows) --> once transformations are done click on close and apply step --> After transformation say agai you can go to transfform data now you deletc the column 5 which is completely empty.
+************************************************
+6. Mini Project: Visualize Data:
+
+We currently in report view.
+1. select stack colum chart
+2. Add data to visulization: add "GDP" to values (y-axis) field from data, "years" to x-axis, add "country" to legand filed.
+3. For any case if you think this is not a good visulization then select other form visulization pane. Now say, select line chart for visulization.
+4. To make better visulization for understanding as there are many countries, now click on frame in a blank region and from visulization select slicers(add it from get more visuals) which has only one field add "country" to it. Now you can analyse on granular level by viewing single or multiple countries(pres clt and select multple). 
+5. To format slicers in fornat pane ---> visuals --> options ---> style ---> Tile.
+6. In addition to line chart now add clustred column chart add "GDP growth" to value field (Y-axis), select "countires" to legan and view chart and their dependecies.
+7. Now add "year" to x-axis and analyse GDP growth.
+
+*****************************************************
+7. Mini Project: Creating a Data Model
+
+Now say in addition to this GDP source file we need to include second source file 2-life_expectancy_years so
+1. get data ---> excel file ---> select 2. life_expectancy_years file ---> transform data ---> first row as header --> done
+3. Now in first file "GDP countries" --> country and year are in rows but in second file " life_ expectancy_years" country is a row entity and year in column entity so we nedd to change years from column to row entity --> This can be done using un-piviting operation
+4. To perform un-piviting select country --> right click and select option unpiviting other columns --> data will be transformed.
+5. chage the data type of new colunm from charaters to whole number and rename it to "Years" and rename other to "Life Exp" --> select Close and apply
+6. Now rearrange the frame and select clustred column chart add "Years" to x-axis and "life Exp" to y-axis as you note here life exp is 5k and above which is not correct, here we see as it is summing the values to correct it  click on yaxis (sum of Life Exp) change it to average now we get correct values.
+7. Now add " country from table 2 in to legand. and now when we select  slicers to select country it has effect on only first two visulization but not o third to do so we need to establish connect between two table which is called as data model.
+8.select model view select "Country" from GDP countries table and drag and drop it on to country filed in second table --> select ok
+9. Go to report view and now we see the relationship between all the visualizations.
