@@ -1,5 +1,6 @@
-# Principals-of-Data-Visualization
-BeautifulSoup, Scrapy, PowerBI, Numpy , Pandas and Matplotlib
+# Principles-of-Data-Visualization
+BeautifulSoup, Scrapy, PowerBI, Numpy, Pandas and Matplotlib
 
-As part of Manipal School of Information Sciences,MAHE [Masters in Artificial Intelligence], I have done and uploaded all the assignments here up-to-date
+I have uploaded all of my work for the Principles of Data Visualization course at Manipal School of Information Sciences, MAHE [Masters in Artificial Intelligence & Machine Learning].
+
 
